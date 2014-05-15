@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+	<TextView 
+	    android:id="@+id/fragmentEditTagNameLabel"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentTop="true"
+	    android:text="@string/labelEditTagName"/>
+	<EditText 
+	    android:id="@+id/fragmentEditTagName"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_marginBottom="32dp"
+	    android:layout_below="@+id/fragmentEditTagNameLabel"
+	    android:inputType="text" />
+	
+	<TextView
+	    android:id="@+id/fragmentEditTagPlaceLabel"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/fragmentEditTagName"
+	    android:text="@string/labelEditTagPlace" />
+	<EditText 
+	    android:id="@+id/fragmentEditTagPlace"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_marginBottom="32dp"
+	    android:layout_below="@+id/fragmentEditTagPlaceLabel"
+	    android:inputType="text" />
+	
+	<TextView 
+	    android:id="@+id/fragmendEditSerialNumberLabel"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/fragmentEditTagPlace"
+	    android:text="@string/labelSerialNumber"/>
+	<TextView
+	    android:id="@+id/fragmentEditSerialNumber"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerHorizontal="true"
+	    android:layout_below="@+id/fragmendEditSerialNumberLabel"
+	    android:textAppearance="@android:style/TextAppearance.Large"
+	    android:text="@string/dummySerialNumber"  />	
+	<Button
+	    android:id="@+id/fragmentEditButtonGenerateSerialNumber"
+	    android:layout_width="match_parent"
+	    android:layout_height="48dp"
+	    android:layout_below="@+id/fragmentEditSerialNumber"
+	    android:text="@string/generateSerialNumber" />
+	
+    <View
+        android:id="@+id/fragmentEditViewDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/fragmentEditButtonSaveToTag"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/holo_green_dark" />
+    
+	<Button 
+	    android:id="@+id/fragmentEditButtonSaveToTag"
+	    android:layout_width="match_parent"
+	    android:layout_height="48dp"
+	    android:layout_alignParentBottom="true"
+	    android:text="@string/saveToTag"/>
+    
+</RelativeLayout>
