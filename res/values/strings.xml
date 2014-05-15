@@ -2,9 +2,22 @@
 <resources>
 
     <string name="app_name">NightGuard NFC</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="titleMainSection">Übersicht</string>
+    <string name="titleDetailSection">Details</string>
+    <string name="titleAdminSection">Bossmodus</string>
+    <string name="labelLastScan">Letztes Tag:</string>
+    <string name="enterPassword">Passwort</string>
+    <string name="buttonEditTags">NFC Tags bearbeiten</string>
+    <string name="labelEditTagName">Tag Name:</string>
+    <string name="labelEditTagPlace">Tag Place:</string>
+    <string name="generateSerialNumber">Neu generieren</string>
+    <string name="saveToTag">Auf NFC Tag speichern</string>
+    <string name="labelSerialNumber">Seriennummer:</string>
+    <string name="login">Login</string>
+    
+    <string name="dummyLastScan">NFC Tag 1, Raum D123</string>
+    <string name="dummyTime">7:43</string>
+    <string name="dummyFlame">JANNIS HIER KOMMT DEINE VIEW HIN</string>
+    <string name="dummySerialNumber">4ae4fa0093a54ab58516fdcbcc464d5b</string>
 
 </resources>
