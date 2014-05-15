@@ -35,7 +35,6 @@ lint.xml
 _sandbox
 
 *target*
-*.jar
 *.war
 *.ear
 
