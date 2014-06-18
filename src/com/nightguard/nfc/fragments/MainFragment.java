@@ -15,15 +15,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
+import com.nightguard.nfc.logic.*;
 import com.nightguard.nfc.R;
 
 public class MainFragment extends Fragment {
 	
+	public static String nfcText ;
+	
 	public static final String TAG = "com.nightguard.nfc.fragments.MainFragment";
 	
 	View mRootView;
-		
 	@InjectView(R.id.fragmentMainLastScan)
 	TextView mTvLastScan;
 	
@@ -60,11 +61,10 @@ public class MainFragment extends Fragment {
 				// Get the Language Code
 				int languageCodeLength = payload[0] & 0063;
 				// Get the Text
-				String text = new String(payload, languageCodeLength + 1,
+				nfcText = new String(payload, languageCodeLength + 1,
 						payload.length - languageCodeLength - 1, textEncoding);
+				Logic.nfcToDatabase(nfcText);
 				
-				
-				Log.d(TAG, text);
 			} catch (UnsupportedEncodingException e) {
 				Log.e(TAG, "Unsupported Encoding", e);
 			}
