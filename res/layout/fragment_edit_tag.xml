@@ -53,7 +53,8 @@
 	    android:layout_centerHorizontal="true"
 	    android:layout_below="@+id/fragmendEditSerialNumberLabel"
 	    android:textAppearance="@android:style/TextAppearance.Large"
-	    android:text="@string/dummySerialNumber"  />	
+	    />	
+	
 	<Button
 	    android:id="@+id/fragmentEditButtonGenerateSerialNumber"
 	    android:layout_width="match_parent"

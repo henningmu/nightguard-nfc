@@ -61,7 +61,7 @@ public class NFCTagReadTimeDAO implements CRUDDAO<NFCTagReadTime>, SQLiteDAO<NFC
 		ContentValues cv = new ContentValues();
 		cv.put(SQLiteConHelper.NFCTAGREADTIME_COL_NFCTAGID, dataObject.getNfcTagId());
 		cv.put(SQLiteConHelper.NFCTAGREADTIME_COL_READTIME, dateFormat.format(dataObject.getReadTime()));
-		Long longid = database.insert(SQLiteConHelper.NFCTAGREADTIME_TABLE, null, null);
+		Long longid = database.insert(SQLiteConHelper.NFCTAGREADTIME_TABLE, null, cv);
 		dataObject.set_id(longid.intValue());
 		return dataObject;
 	}

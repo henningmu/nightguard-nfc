@@ -28,7 +28,8 @@ public class AdminActivity extends FragmentActivity implements AdminListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_admin);
-
+		
+		
 		mAdminFragment = new AdminFragment(this);
 		mEditTagFragment = new EditTagFragment();
 		mNfcAdapter = NfcAdapter.getDefaultAdapter(this);

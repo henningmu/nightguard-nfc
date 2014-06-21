@@ -16,6 +16,8 @@ import android.util.Log;
 
 import com.nightguard.nfc.R;
 import com.nightguard.nfc.constants.MimeType;
+import com.nightguard.nfc.dao.NFCTagLocationDAO;
+import com.nightguard.nfc.dao.NFCTagReadTimeDAO;
 import com.nightguard.nfc.fragments.DetailsFragment;
 import com.nightguard.nfc.fragments.LoginFragment;
 import com.nightguard.nfc.fragments.LoginFragment.LoginListener;
@@ -69,7 +71,9 @@ public class MainActivity extends FragmentActivity implements LoginListener {
 			if (MimeType.MIME_TYPE.equals(type)) {
 				Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 				
-				((MainFragment) mSectionsPagerAdapter.getItem(0)).onNewTag(tag);
+				NFCTagLocationDAO writeLocData=new NFCTagLocationDAO(this);
+				NFCTagReadTimeDAO writeTimData=new NFCTagReadTimeDAO(this);
+				((MainFragment) mSectionsPagerAdapter.getItem(0)).onNewTag(tag, writeTimData, writeLocData);
 			} else {
 				Log.d(TAG, "Wrong mime type: " + type);
 			}

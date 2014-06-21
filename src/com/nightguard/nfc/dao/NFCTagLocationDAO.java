@@ -50,7 +50,7 @@ public class NFCTagLocationDAO implements CRUDDAO<NFCTagLocation>, SQLiteDAO<NFC
 		ContentValues cv = new ContentValues();
 		cv.put(SQLiteConHelper.NFCTAGLOCATION_COL_NFCTAGID, dataObject.getNfcTagId());
 		cv.put(SQLiteConHelper.NFCTAGLOCATION_COL_LOCATION, dataObject.getLocation());
-		Long longid = database.insert(SQLiteConHelper.NFCTAGLOCATION_TABLE, null, null);
+		Long longid = database.insert(SQLiteConHelper.NFCTAGLOCATION_TABLE, null, cv);
 		dataObject.set_id(longid.intValue());
 		return dataObject;
 	}

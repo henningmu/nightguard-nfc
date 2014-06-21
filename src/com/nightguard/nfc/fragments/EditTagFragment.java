@@ -1,6 +1,9 @@
 package com.nightguard.nfc.fragments;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -14,12 +17,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 
+import com.nightguard.nfc.dao.*;
 import com.nightguard.nfc.R;
 import com.nightguard.nfc.constants.MimeType;
 
@@ -30,49 +33,71 @@ public class EditTagFragment extends Fragment {
 	View mRootView;
 	NfcAdapter mAdapter;
 	boolean writeRequested;
-
-	@InjectView(R.id.fragmentEditSerialNumber)
-	TextView mTvSerialNumber;
-
-	@InjectView(R.id.fragmentEditTagName)
-	EditText mEtTagName;
-
-	@InjectView(R.id.fragmentEditTagPlace)
+	Random random=new Random();
+	double Serial=random.nextInt();
+	int TagId;
+	List <Integer> serials=new ArrayList<Integer>();
 	EditText mEtTagPlace;
+	EditText mEtTagName;
+	TextView mTvSerialNumber;
+	
+	
+	public int serialNr(){
+	do {	
+		double Serial=random.nextInt();
+		TagId=(int)Serial*1000000;
+	}
+	while(serials.contains(TagId)|TagId<0);
+	serials.add(TagId);
+	return TagId;
+    } 
 
-	@Override
+@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.fragment_edit_tag, container,
 				false);
-
-		ButterKnife.inject(this, mRootView);
-
+		mTvSerialNumber=(TextView)mRootView.findViewById(R.id.fragmentEditSerialNumber);
+		serialNr();
+		mTvSerialNumber.setText(""+TagId);
+		mEtTagName=(EditText)mRootView.findViewById(R.id.fragmentEditTagName);
+		mEtTagPlace=(EditText)mRootView.findViewById(R.id.fragmentEditTagPlace);
+		Button mSavTag;
+		mSavTag = (Button) mRootView.findViewById(R.id.fragmentEditButtonSaveToTag);
+		mSavTag.setOnClickListener(new OnClickListener(){
+			
+			public void onClick(View v) {
+				writeRequested = true;
+				}
+		});
+		
+		Button mGenSer;
+		mGenSer = (Button) mRootView.findViewById(R.id.fragmentEditButtonGenerateSerialNumber);
+		mGenSer.setOnClickListener(new OnClickListener(){
+			
+			public void onClick(View v) {
+				serialNr();
+				mTvSerialNumber.setText(""+TagId);
+				
+							}
+		});
+		
 		mAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 		writeRequested = false;
-
 		return mRootView;
-	}
-
-	@OnClick(R.id.fragmentEditButtonGenerateSerialNumber)
-	public void onGenerateNewSerialNumber(View v) {
-
-	}
-
-	@OnClick(R.id.fragmentEditButtonSaveToTag)
-	public void saveDataOnNfcTag(View v) {
-		writeRequested = true;
 	}
 
 	public void handleTag(Tag tag) {
 		if (writeRequested) {
-			byte[] payload = "This is my Test message".getBytes();
+			String TagText= mTvSerialNumber.getText().toString()+"-"+mEtTagPlace.getText().toString();
+			Log.d(TAG,TagText);
+			byte[] payload = TagText.getBytes();
 			byte[] mimeBytes = MimeType.MIME_TYPE.getBytes();
+			
 			NdefRecord cardRecord = new NdefRecord(NdefRecord.TNF_MIME_MEDIA,
 					mimeBytes, new byte[0], payload);
 			NdefMessage message = new NdefMessage(
 					new NdefRecord[] { cardRecord });
-
 			try {
 				// see if tag is already NDEF formatted
 				Ndef ndef = Ndef.get(tag);
@@ -93,7 +118,17 @@ public class EditTagFragment extends Fragment {
 
 					ndef.writeNdefMessage(message);
 					Log.d(TAG, "Tag written successfully.");
+					writeRequested=false;
+					byte[] db = mTvSerialNumber.getText().toString().getBytes();
+					NFCTagLocation TagLocBean=new NFCTagLocation();
+					TagLocBean.setNfcTagId(db);
+					TagLocBean.setLocation(mEtTagPlace.getText().toString()+"");
+					NFCTagLocationDAO writeData=new NFCTagLocationDAO(this.getActivity().getApplicationContext());
+					writeData.openConnection();
+					writeData.create(TagLocBean);
+					writeData.closeConnection();
 					return;
+					
 				} else {
 					// attempt to format tag
 					NdefFormatable format = NdefFormatable.get(tag);
