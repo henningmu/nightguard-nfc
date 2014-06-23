@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.nightguard.nfc.R;
 
@@ -47,7 +48,9 @@ public class LoginFragment extends Fragment {
 				if (PASSWORD.equals(password)) {
 					mLoginListener.onSuccessfulLogin();
 				}
-				
+				else {
+					Toast.makeText(getActivity().getApplicationContext(), "Wrong password!", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		return mRootView;

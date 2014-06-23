@@ -12,16 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/labelLastScan" />
+        android:layout_alignParentTop="true" />
     <TextView
         android:id="@+id/fragmentMainLastScan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/fragmentMainLabelLastScan"
-        android:text="@string/dummyLastScan" />
+        android:layout_toRightOf="@+id/fragmentMainLabelLastScan" />
     
     <TextView
         android:id="@+id/fragmentMainTimeSinceLastScan"
@@ -29,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textSize="48sp"
-        android:text="@string/dummyTime" />
+        android:text="@string/dummyMainContent" />
     
 
 </RelativeLayout>

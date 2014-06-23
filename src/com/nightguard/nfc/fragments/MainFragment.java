@@ -1,8 +1,9 @@
 package com.nightguard.nfc.fragments;
 
-import java.sql.Date.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -15,9 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nightguard.nfc.R;
-import com.nightguard.nfc.dao.NFCTagLocation;
 import com.nightguard.nfc.dao.NFCTagLocationDAO;
 import com.nightguard.nfc.dao.NFCTagReadTime;
 import com.nightguard.nfc.dao.NFCTagReadTimeDAO;
@@ -31,6 +32,10 @@ public class MainFragment extends Fragment {
 	View mRootView;
 	TextView mTvLastScan;
 	TextView mTvTimeSinceLastScan;
+	Date mTimestamp;
+	
+	String data;
+	boolean newDataAvailable = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +46,12 @@ public class MainFragment extends Fragment {
 		mTvTimeSinceLastScan = (TextView) mRootView
 				.findViewById(R.id.fragmentMainTimeSinceLastScan);
 
+		if(newDataAvailable) {
+			mTvLastScan.setText(data);
+			startCounter();
+			newDataAvailable = false;
+		}
+		
 		return mRootView;
 	}
 
@@ -65,23 +76,55 @@ public class MainFragment extends Fragment {
 			String[] nfcSplit = nfcText.split("-");
 			NFCTagReadTime TagTimBean = new NFCTagReadTime();
 			TagTimBean.setNfcTagId(nfcSplit[0].getBytes());
-			Date timestamp = new Date();
-			TagTimBean.setReadTime(timestamp);
+			mTimestamp = new Date();
+			TagTimBean.setReadTime(mTimestamp);
 			writeTimData.openConnection();
 			writeTimData.create(TagTimBean);
 			writeTimData.closeConnection();
 
-			List<NFCTagLocation> getLoc;
-			writeLocData.openConnection();
-			getLoc = writeLocData.readAll();
-			writeLocData.closeConnection();
-			for (NFCTagLocation tagloc : getLoc) {
-				String ara=new String(tagloc.getNfcTagId());
-					if (ara.compareTo(nfcSplit[0])==0){
-//				mTvLastScan.setText("Letztes Tag: "+ara+", "+tagloc.getLocation());
-				
-			}
+			if (nfcSplit.length == 2) {
+				String tagId = nfcSplit[0];
+				String tagPlace = nfcSplit[1];
+				String formatTime = new SimpleDateFormat("dd. MMM. yyyy hh:mm")
+						.format(mTimestamp);
+				if(mTvLastScan == null) {
+					newDataAvailable = true;
+					data = tagPlace + " @ " + formatTime;
+				} else {
+					mTvLastScan.setText(tagPlace + " @ " + formatTime);
+				}
+
+				startCounter();
+			} else {
+				Toast.makeText(getActivity().getApplicationContext(),
+						"Invalid data on NFC tag", Toast.LENGTH_SHORT).show();
 			}
 		}
+	}
+
+	private void startCounter() {
+		Timer T=new Timer();
+		T.scheduleAtFixedRate(new TimerTask() {         
+		        @Override
+		        public void run() {
+		            getActivity().runOnUiThread(new Runnable()
+		            {
+		                @Override
+		                public void run()
+		                {
+		                	Date now = new Date();
+							long difMillis = now.getTime() - mTimestamp.getTime();
+		
+							long diffSeconds = difMillis / 1000;
+		
+							String difference = "" + (diffSeconds / 60) + ":"
+									+ (diffSeconds % 60);
+							Log.d(TAG, "dif: " + difference);
+							mTvTimeSinceLastScan.setText(difference);               
+		                }
+		            });
+		        }
+		    }, 1000, 1000);
+		
 	}
 }

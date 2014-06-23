@@ -9,11 +9,12 @@
     <string name="enterPassword">Passwort</string>
     <string name="buttonEditTags">NFC Tags bearbeiten</string>
     <string name="labelEditTagName">Tag Name:</string>
-    <string name="labelEditTagPlace">Tag Place:</string>
+    <string name="labelEditTagPlace">Tag Location:</string>
     <string name="generateSerialNumber">Neu generieren</string>
     <string name="saveToTag">Auf NFC Tag speichern</string>
     <string name="labelSerialNumber">Seriennummer:</string>
     <string name="login">Login</string>
+    <string name="dummyMainContent">Noch kein Tag gescannt</string>
     
     <string name="dummyLastScan">NFC Tag 1, Raum D123</string>
     <string name="dummyTime">7:43</string>

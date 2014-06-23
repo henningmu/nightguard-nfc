@@ -14,6 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_above="@+id/fragmentAdminViewDivider" />
     
+
     <View
         android:id="@+id/fragmentAdminViewDivider"
         android:layout_width="match_parent"

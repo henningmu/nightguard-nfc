@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nightguard.nfc.dao.*;
 import com.nightguard.nfc.R;
@@ -38,7 +39,6 @@ public class EditTagFragment extends Fragment {
 	int TagId;
 	List <Integer> serials=new ArrayList<Integer>();
 	EditText mEtTagPlace;
-	EditText mEtTagName;
 	TextView mTvSerialNumber;
 	
 	
@@ -60,7 +60,6 @@ public class EditTagFragment extends Fragment {
 		mTvSerialNumber=(TextView)mRootView.findViewById(R.id.fragmentEditSerialNumber);
 		serialNr();
 		mTvSerialNumber.setText(""+TagId);
-		mEtTagName=(EditText)mRootView.findViewById(R.id.fragmentEditTagName);
 		mEtTagPlace=(EditText)mRootView.findViewById(R.id.fragmentEditTagPlace);
 		Button mSavTag;
 		mSavTag = (Button) mRootView.findViewById(R.id.fragmentEditButtonSaveToTag);
@@ -118,6 +117,8 @@ public class EditTagFragment extends Fragment {
 
 					ndef.writeNdefMessage(message);
 					Log.d(TAG, "Tag written successfully.");
+					Toast.makeText(getActivity().getApplicationContext(), "Data written successfully", Toast.LENGTH_SHORT).show();
+
 					writeRequested=false;
 					byte[] db = mTvSerialNumber.getText().toString().getBytes();
 					NFCTagLocation TagLocBean=new NFCTagLocation();
@@ -136,6 +137,7 @@ public class EditTagFragment extends Fragment {
 						try {
 							format.connect();
 							format.format(message);
+							Toast.makeText(getActivity().getApplicationContext(), "Data written successfully", Toast.LENGTH_SHORT).show();
 							Log.d(TAG,
 									"Tag written successfully!\nClose this app and scan tag.");
 							return;

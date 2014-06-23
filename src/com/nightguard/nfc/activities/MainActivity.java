@@ -18,7 +18,6 @@ import com.nightguard.nfc.R;
 import com.nightguard.nfc.constants.MimeType;
 import com.nightguard.nfc.dao.NFCTagLocationDAO;
 import com.nightguard.nfc.dao.NFCTagReadTimeDAO;
-import com.nightguard.nfc.fragments.DetailsFragment;
 import com.nightguard.nfc.fragments.LoginFragment;
 import com.nightguard.nfc.fragments.LoginFragment.LoginListener;
 import com.nightguard.nfc.fragments.MainFragment;
@@ -140,6 +139,9 @@ public class MainActivity extends FragmentActivity implements LoginListener {
 
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+		private MainFragment mainFragment;
+		private LoginFragment loginFragment;
+		
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
@@ -148,13 +150,14 @@ public class MainActivity extends FragmentActivity implements LoginListener {
 		public Fragment getItem(int position) {
 			switch (position) {
 			case 0:
-				MainFragment mainFragment = new MainFragment();
+				if(mainFragment == null) {
+					mainFragment = new MainFragment();
+				}
 				return mainFragment;
 			case 1:
-				DetailsFragment detailsFragment = new DetailsFragment();
-				return detailsFragment;
-			case 2:
-				LoginFragment loginFragment = new LoginFragment(MainActivity.this);
+				if(loginFragment == null) {
+					loginFragment = new LoginFragment(MainActivity.this);
+				}
 				return loginFragment;
 			default:
 				return null;
@@ -163,7 +166,7 @@ public class MainActivity extends FragmentActivity implements LoginListener {
 
 		@Override
 		public int getCount() {
-			return 3;
+			return 2;
 		}
 
 		@Override
@@ -172,8 +175,6 @@ public class MainActivity extends FragmentActivity implements LoginListener {
 			case 0:
 				return getString(R.string.titleMainSection);
 			case 1:
-				return getString(R.string.titleDetailSection);
-			case 2:
 				return getString(R.string.titleAdminSection);
 			}
 			return null;
